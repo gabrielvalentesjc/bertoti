@@ -31,3 +31,7 @@ How an organization makes decisions, based on the lessons of Time and Change and
   - **SQL X NoSQL**
   - **Escalabilidade X Simplicidade**
   - **Portabilidade X Desempenho** 
+
+**Diagrama UML**
+
+<img width="1179" height="581" alt="Classe UML" src="https://github.com/user-attachments/assets/59ac4330-9244-436f-ba0c-b108fbd81999" />
