@@ -38,4 +38,8 @@ How an organization makes decisions, based on the lessons of Time and Change and
 
 **5. Java**
 
+[Veja a resolução da atividade 5 aqui](Aula/src/Aula)
+
 **6. Teste**
+
+[Veja a resolução da atividade 6 aqui](Aula/src/Aula)
