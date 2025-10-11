@@ -40,7 +40,8 @@ How an organization makes decisions, based on the lessons of Time and Change and
 
 **4. Diagrama UML**
 
-<img width="646" height="346" alt="Captura de tela 2025-08-22 192641" src="https://github.com/user-attachments/assets/dfac7c05-d353-436c-a14c-e3b8690023b0" />
+<img width="646" height="346" alt="481162857-dfac7c05-d353-436c-a14c-e3b8690023b0" src="https://github.com/user-attachments/assets/77dd7aa7-2c35-4799-8985-31d5ceae6af7" />
+
 
 ---
 
@@ -67,3 +68,9 @@ How an organization makes decisions, based on the lessons of Time and Change and
 **7. Integração com SQLite**
 
 [Veja a resolução da atividade 7 aqui](Biblioteca/src/main/java/Biblioteca)
+
+---
+
+**8. Ollama**
+
+[Veja a resolução da atividade 8 aqui](Modelo/src/main/java/org/example)
