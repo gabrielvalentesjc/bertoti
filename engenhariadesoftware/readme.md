@@ -74,3 +74,5 @@ How an organization makes decisions, based on the lessons of Time and Change and
 **8. Ollama**
 
 [Veja a resolução da atividade 8 aqui](Modelo/src/main/java/org/example)
+
+<img width="905" height="686" alt="Captura de tela 2025-10-10 211544" src="https://github.com/user-attachments/assets/c61a9683-0912-4a24-bd23-13531fe55dcc" />
