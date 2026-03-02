@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD de Cafés</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f0f2f5; padding: 20px; }
+        .container { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h2, h3 { color: #333; text-align: center; }
+        ul { list-style-type: none; padding: 0; }
+        li { background: #fff; margin: 8px 0; padding: 12px; border: 1px solid #ddd; border-radius: 5px; display: flex; justify-content: space-between; align-items: center; }
+        .acoes button { padding: 5px 10px; margin-left: 5px; border: none; border-radius: 3px; cursor: pointer; font-size: 12px; }
+        .btn-editar { background-color: #ffc107; color: #000; }
+        .btn-excluir { background-color: #dc3545; color: white; }
+        .form-group { display: flex; gap: 10px; margin-top: 15px; }
+        input { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        .btn-salvar { background-color: #28a745; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .btn-cancelar { background-color: #6c757d; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; display: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>☕ Meus Cafés</h2>
+
+    <ul id="lista-cafes">
+        <li>Carregando...</li>
+    </ul>
+
+    <h3 id="titulo-form">Adicionar Novo Café</h3>
+    <div class="form-group">
+        <input type="text" id="nome-cafe" placeholder="Digite o nome do café">
+        <button id="btn-salvar" class="btn-salvar" onclick="salvarCafe()">Salvar</button>
+        <button id="btn-cancelar" class="btn-cancelar" onclick="cancelarEdicao()">Cancelar</button>
+    </div>
+</div>
+
+<script>
+    const URL_API = 'http://localhost:8080/coffees';
+    let idCafeEmEdicao = null; // Variável para controlar se estamos criando ou editando
+
+    // READ (GET) - Busca os dados no banco
+    async function carregarCafes() {
+        try {
+            const resposta = await fetch(URL_API);
+            const cafes = await resposta.json();
+
+            const lista = document.getElementById('lista-cafes');
+            lista.innerHTML = '';
+
+            cafes.forEach(cafe => {
+                const li = document.createElement('li');
+
+                // Cria o texto do café
+                const spanNome = document.createElement('span');
+                spanNome.textContent = cafe.name;
+
+                // Cria a div com os botões de ação
+                const divAcoes = document.createElement('div');
+                divAcoes.className = 'acoes';
+
+                const btnEditar = document.createElement('button');
+                btnEditar.textContent = 'Editar';
+                btnEditar.className = 'btn-editar';
+                btnEditar.onclick = () => prepararEdicao(cafe.id, cafe.name);
+
+                const btnExcluir = document.createElement('button');
+                btnExcluir.textContent = 'Excluir';
+                btnExcluir.className = 'btn-excluir';
+                btnExcluir.onclick = () => deletarCafe(cafe.id);
+
+                divAcoes.appendChild(btnEditar);
+                divAcoes.appendChild(btnExcluir);
+
+                li.appendChild(spanNome);
+                li.appendChild(divAcoes);
+                lista.appendChild(li);
+            });
+        } catch (erro) {
+            console.error("Erro:", erro);
+            document.getElementById('lista-cafes').innerHTML = '<li>Erro ao carregar dados.</li>';
+        }
+    }
+
+    // CREATE (POST) ou UPDATE (PUT)
+    async function salvarCafe() {
+        const inputNome = document.getElementById('nome-cafe');
+        const nome = inputNome.value.trim();
+
+        if (!nome) {
+            alert("Por favor, digite um nome!");
+            return;
+        }
+
+        // Se idCafeEmEdicao tiver valor, é PUT. Se for null, é POST.
+        const metodo = idCafeEmEdicao ? 'PUT' : 'POST';
+        const urlFinal = idCafeEmEdicao ? `${URL_API}/${idCafeEmEdicao}` : URL_API;
+
+        // O Java precisa do ID dentro do JSON para fazer o UPDATE corretamente
+        const payload = idCafeEmEdicao ? { id: idCafeEmEdicao, name: nome } : { name: nome };
+
+        try {
+            const resposta = await fetch(urlFinal, {
+                method: metodo,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (resposta.ok) {
+                cancelarEdicao(); // Limpa a tela
+                carregarCafes();  // Recarrega a lista
+            }
+        } catch (erro) {
+            console.error("Erro ao salvar:", erro);
+        }
+    }
+
+    // DELETE - Exclui um registro
+    async function deletarCafe(id) {
+        if (confirm("Tem certeza que deseja excluir este café?")) {
+            try {
+                await fetch(`${URL_API}/${id}`, { method: 'DELETE' });
+                carregarCafes(); // Recarrega a lista após excluir
+            } catch (erro) {
+                console.error("Erro ao excluir:", erro);
+            }
+        }
+    }
+
+    // Prepara a tela para o modo de Edição
+    function prepararEdicao(id, name) {
+        idCafeEmEdicao = id;
+        document.getElementById('nome-cafe').value = name;
+        document.getElementById('titulo-form').textContent = 'Editar Café';
+        document.getElementById('btn-salvar').textContent = 'Atualizar';
+        document.getElementById('btn-salvar').style.backgroundColor = '#007bff';
+        document.getElementById('btn-cancelar').style.display = 'block';
+    }
+
+    // Volta a tela para o modo de Criação
+    function cancelarEdicao() {
+        idCafeEmEdicao = null;
+        document.getElementById('nome-cafe').value = '';
+        document.getElementById('titulo-form').textContent = 'Adicionar Novo Café';
+        document.getElementById('btn-salvar').textContent = 'Salvar';
+        document.getElementById('btn-salvar').style.backgroundColor = '#28a745';
+        document.getElementById('btn-cancelar').style.display = 'none';
+    }
+
+    // Inicia a aplicação carregando os dados
+    carregarCafes();
+</script>
+
+</body>
+</html>
