@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: finance-agent-postgres
+    environment:
+      POSTGRES_DB: financeagent
+      POSTGRES_USER: financeagent
+      POSTGRES_PASSWORD: financeagent
+    ports:
+      # host 5433 -> container 5432: evita conflito com um Postgres local ja usando a 5432
+      - "5433:5432"
+    volumes:
+      - finance-agent-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U financeagent -d financeagent"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  finance-agent-pgdata:

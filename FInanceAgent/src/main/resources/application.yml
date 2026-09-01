@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: finance-agent
+  ai:
+    ollama:
+      base-url: http://localhost:11434
+      chat:
+        model: qwen3.5:2b
+        options:
+          temperature: 0.2
+  # O starter do PGVector traz JDBC + autoconfig de DataSource/VectorStore no classpath.
+  # Por padrao isso fica DESLIGADO: a aplicacao sobe sem Postgres. So liga de verdade
+  # com o profile "rag" (ver application-rag.yml), que fornece seu proprio DataSource/VectorStore.
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.ai.vectorstore.pgvector.autoconfigure.PgVectorStoreAutoConfiguration
+
+logging:
+  level:
+    com.financeagent: DEBUG

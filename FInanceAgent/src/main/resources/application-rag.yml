@@ -1,0 +1,24 @@
+# Profile "rag": ativa a base de conhecimento de compliance via PGVector.
+# Ative com: mvn spring-boot:run -Dspring-boot.run.profiles=rag
+# Requer Postgres com a extensao pgvector no ar (ver docker-compose.yml).
+spring:
+  ai:
+    ollama:
+      embedding:
+        model: nomic-embed-text
+
+finance:
+  rag:
+    datasource:
+      url: jdbc:postgresql://localhost:5433/financeagent
+      username: financeagent
+      password: financeagent
+    vector:
+      table-name: compliance_vector_store
+      dimensions: 768
+    auto-ingest: true
+    documents-location: classpath:compliance/*.md
+
+logging:
+  level:
+    com.financeagent.rag: DEBUG
