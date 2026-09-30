@@ -31,11 +31,11 @@ Repositório do Projeto: [Atlaz - GitHub](https://github.com/gabrielvalentesjc/A
 * Apoio direto e desenvolvimento no **Front-end** da aplicação (utilizando Vue.js), auxiliando na implementação de telas e na interatividade da interface para os usuários.
 
 ## Hard Skills
-* **Java:** Sei fazer com ajuda
-* **Spring Boot:** Sei fazer com ajuda
-* **Vue.js:** Sei fazer com autonomia
-* **Supabase / PostgreSQL:** Sei fazer com ajuda
-* **Git e GitHub:** Sei fazer com autonomia
+* **Java**
+* **Spring Boot** 
+* **Vue.js** 
+* **Supabase / PostgreSQL** 
+* **Git e GitHub**
 
 ## Soft Skills
 * **Comunicação:** Exercitei intensamente minhas habilidades de comunicação ao atuar como Product Owner, alinhando expectativas diretamente com o cliente e garantindo que a visão do produto fosse transmitida com clareza para o time de desenvolvimento.
